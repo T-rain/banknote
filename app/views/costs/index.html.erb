@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript">
+  $(function () {
+
+    // Radialize the colors
+    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+            ]
+        };
+    });
+
+    // Build the chart
+    $('#container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'What you pay for as a pie, 2015'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Cost',
+            data: <%= @data.to_json.html_safe%>
+        }]
+    });
+});
+
+
+</script>
+
+</head>
+<body>
+
+
+    <p id="notice"><%= notice %></p>
+
+    Hello!! <%= current_user.email %>
+    <%= link_to "Log out", destroy_user_session_path,method:'delete' %>
+
+    <h1>Listing Costs</h1>
+
+    <%= link_to 'New Cost', new_cost_path %>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Money</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @costs.each do |cost| %>
+          <tr>
+            <td><%= cost.title %></td>
+            <td><%= cost.money %></td>
+            <td><%= link_to 'Show', cost %></td>
+            <td><%= link_to 'Edit', edit_cost_path(cost) %></td>
+            <td><%= link_to 'Destroy', cost, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
+    <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 0"></div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
