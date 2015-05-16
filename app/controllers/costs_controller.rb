@@ -7,6 +7,7 @@ class CostsController < ApplicationController
   def index
     @costs = current_user.costs.all
     @data = current_user.costs.dashboard()
+
   end
 
   # GET /costs/1
@@ -30,8 +31,8 @@ class CostsController < ApplicationController
 
     respond_to do |format|
       if @cost.save
-        format.html { redirect_to @cost, notice: 'Cost was successfully created.' }
-        format.json { render :show, status: :created, location: @cost }
+        format.html { redirect_to costs_url, notice: 'Cost was successfully created.' }
+        format.json { render :index, status: :created, location: costs_url }
       else
         format.html { render :new }
         format.json { render json: @cost.errors, status: :unprocessable_entity }
@@ -44,8 +45,8 @@ class CostsController < ApplicationController
   def update
     respond_to do |format|
       if @cost.update(cost_params)
-        format.html { redirect_to @cost, notice: 'Cost was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cost }
+         format.html { redirect_to costs_url, notice: 'Cost was successfully created.' }
+        format.json { render :index, status: :created, location: costs_url }
       else
         format.html { render :edit }
         format.json { render json: @cost.errors, status: :unprocessable_entity }

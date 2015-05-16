@@ -1,25 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
+
+<!--fix the http to https(bad solution)-->
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript">
-  $(function () {
+$(document).ready(function () {
 
     // Radialize the colors
     Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
-        return {
-            radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-            stops: [
-                [0, color],
-                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-            ]
-        };
-    });
+            return {
+                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                stops: [
+                    [0, color],
+                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        });
 
     // Build the chart
+    /*
+     var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            events: {
+                redraw: function(event) {
+                    alert ('Chart loaded');
+                }
+            }        
+        },
+        title: {
+            text: 'What you pay for as a pie, 2015'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+
+
+        series: [{
+            animation: false,
+            type: 'pie',
+            name: 'Cost',
+            data: <%= @data.to_json.html_safe%>    
+        }]
+    },function(chart){
+
+    //alert('LOADED');
+
+    });
+    */
+    
     $('#container').highcharts({
         chart: {
             plotBackgroundColor: null,
